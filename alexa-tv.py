@@ -41,10 +41,10 @@ class device_handler(debounce_handler):
             os.system("python lgtv.py closeApp cdp-30")
             print "Closed Plex"
         elif name == "prime video" and state == True:
-            os.system("python lgtv.py startApp [amazon.html]")
+            os.system("python lgtv.py startApp amazon.html")
             print "Launched Amazon Prime Video"
         elif name == "prime video" and state == False:
-            os.system("python lgtv.py closeApp [amazon.html]")
+            os.system("python lgtv.py closeApp amazon.html")
             print "Closed Amazon Prime Video"
         elif name == "netflix" and state == True:
             os.system("python lgtv.py startApp netflix")
