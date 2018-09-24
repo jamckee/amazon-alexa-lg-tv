@@ -24,7 +24,7 @@ class device_handler(debounce_handler):
     """Publishes the on/off state requested,
        and the IP address of the Echo making the request.
     """
-    TRIGGERS = {"tv": 52000, "plex":52001, "volume": 52002, "netflix": 52003, "playback": 52004}
+    TRIGGERS = {"tv": 52000, "plex":52001, "volume": 52002, "netflix": 52003, "playback": 52004, "prime video":52005}
 
     def act(self, client_address, state, name):
         print "State", state, "on ", name, "from client @", client_address
@@ -40,6 +40,12 @@ class device_handler(debounce_handler):
         elif name == "plex" and state == False:
             os.system("python lgtv.py closeApp cdp-30")
             print "Closed Plex"
+        elif name == "prime video" and state == True:
+            os.system("python lgtv.py startApp [amazon.html]")
+            print "Launched Amazon Prime Video"
+        elif name == "prime video" and state == False:
+            os.system("python lgtv.py closeApp [amazon.html]")
+            print "Closed Amazon Prime Video"
         elif name == "netflix" and state == True:
             os.system("python lgtv.py startApp netflix")
             print "Launched Netflix"
