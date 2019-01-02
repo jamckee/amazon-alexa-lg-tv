@@ -27,58 +27,58 @@ class device_handler(debounce_handler):
     TRIGGERS = {"tv": 52000, "plex":52001, "volume": 52002, "netflix": 52003, "playback": 52004, "prime video":52005, "hdmi1":52006, "hdmi2":52007, "hdmi3":52008, "vudu":52009}
 
     def act(self, client_address, state, name):
-        print "State", state, "on ", name, "from client @", client_address
+        print("State", state, "on ", name, "from client @", client_address)
         if name == "tv" and state == True:
             os.system("python lgtv.py on")
-            print "Magic packet sent to turn on TV!"
+            print("Magic packet sent to turn on TV!")
         elif name == "tv" and state == False:
             os.system("python lgtv.py off")
-            print "TV turned off!"
+            print("TV turned off!")
         elif name == "hdmi1" and state == True:
             os.system("python lgtv.py setInput HDMI_1")
-            print "Input set to HDMI 1"
+            print("Input set to HDMI 1")
         elif name == "hdmi2" and state == True:
             os.system("python lgtv.py setInput HDMI_2")
-            print "Input set to HDMI 2"
+            print("Input set to HDMI 2")
         elif name == "hdmi3" and state == True:
             os.system("python lgtv.py setInput HDMI_3")
-            print "Input set to HDMI 3"    
+            print("Input set to HDMI 3")    
         elif name == "plex" and state == True:
             os.system("python lgtv.py startApp cdp-30")
-            print "Launched Plex"
+            print("Launched Plex")
         elif name == "plex" and state == False:
             os.system("python lgtv.py closeApp cdp-30")
-            print "Closed Plex"
+            print("Closed Plex")
         elif name == "prime video" and state == True:
             os.system("python lgtv.py startApp amazon.html")
-            print "Launched Amazon Prime Video"
+            print("Launched Amazon Prime Video")
         elif name == "prime video" and state == False:
             os.system("python lgtv.py closeApp amazon.html")
-            print "Closed Amazon Prime Video"
+            print("Closed Amazon Prime Video")
         elif name == "vudu" and state == True:
             os.system("python lgtv.py startApp vudu")
-            print "Launched Vudu"
+            print("Launched Vudu")
         elif name == "vudu" and state == False:
             os.system("python lgtv.py closeApp vudu")
-            print "Closed Vudu"
+            print("Closed Vudu")
         elif name == "netflix" and state == True:
             os.system("python lgtv.py startApp netflix")
-            print "Launched Netflix"
+            print("Launched Netflix")
         elif name == "netflix" and state == False:
             os.system("python lgtv.py closeApp netflix")
-            print "Closed Netflix"
+            print("Closed Netflix")
         elif name == "volume" and state == True:
             os.system("python lgtv.py setVolume 44")
-            print "Volume set to FOURTYFOUR"
+            print("Volume set to FOURTYFOUR")
         elif name == "volume" and state == False:
             os.system("python lgtv.py setVolume 0")
-            print "Volume set to ZERO"
+            print("Volume set to ZERO")
         elif name == "playback" and state == True:
             os.system("python lgtv.py inputMediaPlay")
-            print "Playback set to RESUME"
+            print("Playback set to RESUME")
         elif name == "playback" and state == False:
             os.system("python lgtv.py inputMediaPause")
-            print "Playback set to PAUSE"
+            print("Playback set to PAUSE")
         return True
 
 
@@ -102,7 +102,7 @@ if __name__ == "__main__":
             # Allow time for a ctrl-c to stop the process
             p.poll(100)
             time.sleep(0.1)
-        except Exception, e:
+        except Exception as e:
             logging.critical("Critical exception: " + str(e))
             break
 

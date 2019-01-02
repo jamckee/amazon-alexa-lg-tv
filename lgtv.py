@@ -126,7 +126,7 @@ def LGTVScan(first_only=False):
                     'address': address[0]
                 })
         except Exception as e:
-            print e.message
+            print(e.message)
             attempts -= 1
             continue
 
@@ -220,7 +220,7 @@ class LGTVClient(WebSocketClient):
 
     def __exec_command(self):
         if self.__handshake_done is False:
-            print "Error: Handshake failed"
+            print("Error: Handshake failed")
         if self.__waiting_command is None or len(self.__waiting_command.keys()) == 0:
             self.close()
             return
@@ -253,12 +253,12 @@ class LGTVClient(WebSocketClient):
         ws.send(json.dumps(hello_data))
 
     def closed(self, code, reason=None):
-        print json.dumps({
+        print(json.dumps({
             "closing": {
                 "code": code,
-                "reason": reason
+                "reason": str(reason)
             }
-        })
+        }))
 
     def received_message(self, response):
         if self.__waiting_callback:
@@ -267,18 +267,18 @@ class LGTVClient(WebSocketClient):
     def __defaultHandler(self, response):
         # {"type":"response","id":"0","payload":{"returnValue":true}}
         if response['type'] == "error":
-            print json.dumps(response)
+            print(json.dumps(response))
             self.close()
         if "returnValue" in response["payload"] and response["payload"]["returnValue"] is True:
-            print json.dumps(response)
+            print(json.dumps(response))
             self.close()
         else:
-            print json.dumps(response)
+            print(json.dumps(response))
 
     def __prompt(self, response):
         # {"type":"response","id":"register_0","payload":{"pairingType":"PROMPT","returnValue":true}}
         if response['payload']['pairingType'] == "PROMPT":
-            print "Please accept the pairing request on your LG TV"
+            print("Please accept the pairing request on your LG TV")
             self.__waiting_callback = self.__set_client_key
 
     def __handshake(self, response):
@@ -296,7 +296,7 @@ class LGTVClient(WebSocketClient):
 
     def on(self):
         if not self.__macAddress:
-            print "Client must have been powered on and paired before power on works"
+            print("Client must have been powered on and paired before power on works")
         wol.send_magic_packet(self.__macAddress)
 
     def off(self):
@@ -412,21 +412,21 @@ class LGTVClient(WebSocketClient):
 
 def usage(error=None):
     if error:
-        print "Error: " + error
-    print "LGTV Controller"
-    print "Author: Karl Lattimer <karl@qdh.org.uk>"
-    print "Usage: lgtv <command> [parameter]"
-    print
-    print "Available Commands:"
+        print("Error: " + error)
+    print("LGTV Controller")
+    print("Author: Karl Lattimer <karl@qdh.org.uk>")
+    print("Usage: lgtv <command> [parameter]")
+    print()
+    print("Available Commands:")
 
-    print "  scan"
-    print "  auth                  Hostname/IP    Authenticate and exit, creates initial config ~/.lgtv.json"
+    print("  scan")
+    print("  auth                  Hostname/IP    Authenticate and exit, creates initial config ~/.lgtv.json")
 
     for c in getCommands(LGTVClient):
-        print "  " + c,
-        print " " * (20 - len(c)),
+        print("  " + c,)
+        print(" " * (20 - len(c)),)
         args = getargspec(LGTVClient.__dict__[c])
-        print ' '.join(args.args[1:-1])
+        print(' '.join(args.args[1:-1]))
 
 
 def parseargs(command, argv):
@@ -463,16 +463,16 @@ if __name__ == '__main__':
     elif sys.argv[1] == "scan":
         results = LGTVScan()
         if len(results) > 0:
-            print json.dumps({
+            print(json.dumps({
                 "result": "ok",
                 "count": len(results),
                 "list": results
-            })
+            }))
         else:
-            print json.dumps({
+            print(json.dumps({
                 "result": "failed",
                 "count": len(results)
-            })
+            }))
     elif sys.argv[1] == "on":
         ws = LGTVClient()
         ws.on()
